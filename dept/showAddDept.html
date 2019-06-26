@@ -25,6 +25,7 @@
 			//$("#deptForm").submit(function(){
 				var name = $("#name");
 				var remark = $("#remark");
+				console.log(name.val());
 				var msg = "";
 				if ($.trim(name.val()) == ""){
 					msg = "部门名称不能为空！";
@@ -35,12 +36,15 @@
 				}
 				if (msg != ""){
 					$.ligerDialog.error(msg);
-					return false;
 				}else{
-					return true;
+                    $.ajax({
+                        type: "post",
+						contentType:"application/json",
+                        url: "http://47.100.175.241:9652/csi/addDepartment",
+                        dataType:'json',
+                        data:JSON.stringify({"deptName":name.val(),"deptRemark":remark.val()})
+                    });
 				}
-				//$("#deptForm").submit();
-			//});
 	    }
 		
 
