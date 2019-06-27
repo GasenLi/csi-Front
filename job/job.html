@@ -158,10 +158,13 @@
 
             /** 搜索定点击事件 */
             $("#sousuoButton").click(function () {
-                if($("#sousuo").val() == "")
-                    alert("职位名称不能为空");
+                if($("#sousuo").val() == ""){
+                    flag = false;
+                    page = 1;
+                    change(1,count);
+				}
                 else{
-                    var flag = true;
+                    flag = true;
                     page = 1;
                     sousuoChangge(1,count);
                 }
