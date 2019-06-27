@@ -40,31 +40,31 @@ $(function(){
 	   	$.localStorage.remove(pk);
 	   	$.localStorage.remove(rk);
 	   }
-	 window.location.replace("main.html");
-	 /*
+	 // window.location.replace("main.html");
+	 
 		$.ajax({
-	     type: "POST",
-	     url: "/hrm/user/ajaxlogin",
+	     type: "GET",
+	     url: "http://47.100.175.241:9652/csi/checkAccount",
 	     async: true,
 	     data:{
-	    	 loginname:loginname.trim(),
-	    	 password:password.trim()
+	    	 loginName:loginname.trim(),
+	    	 userName:password.trim()
 	    	 },
 	     dataType: "json",
 	     error: function (XMLHttpRequest, textStatus, errorThrown) {
 	     	$.MsgBox.Alert("消息","出错了，请于管理员联系");
 	     },
 	     success: function (json) {
-	     	if(json.message!=""){
+	     	if(json.message=="success"){
 	     		$("#tishi").html(json.message);
-	     	}else{
-	     		window.location.replace("main");
-	     		
-	     		//alert(JSON.stringify(json));
+	     		window.location.replace("main.html");
+	     	}else if(json.message=="fail"){
+	     		//window.location.replace("main");
+	     		$.MsgBox.Alert("消息","账户或密码不正确");	     		
 	     	}
 	     }
 	 });
-	   */
+	  
 	   /** 提交表单 */
 	   //$("#loginForm").submit();
 		   
