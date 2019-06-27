@@ -21,8 +21,7 @@
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript">
 function submit(){
-	    	/** 职位表单提交 */
-			//$("#jobForm").submit(function(){
+
 				var name = $("#name");
 				var remark = $("#remark");
 				var msg = "";
@@ -37,10 +36,22 @@ function submit(){
 					$.ligerDialog.error(msg);
 					return false;
 				}else{
-					return true;
+                    $.ajax({
+                        type: "post",
+                        contentType:"application/json",
+                        url: "http://47.100.175.241:9652/csi/addJob",
+                        dataType:'json',
+                        data:JSON.stringify({"jobName":name.val(),"jobRemark":remark.val()}),
+                        success:function(){
+                            console.log("成功");
+                            window.location.href = "job.html";
+                        },
+                        error:function () {
+                            console.log("失败");
+                        }
+                    });
+
 				}
-				//$("#jobForm").submit();
-			//});
 	    }
 		
 
@@ -73,7 +84,7 @@ function submit(){
 		    </td></tr>
 			<tr><td class="main_tdbor"></td></tr>
 			
-			<tr><td align="left" class="fftd"><input type="button" onclick="submit()" value="添加 ">&nbsp;&nbsp;<input type="reset" value="取消 "></td></tr>
+			<tr><td align="left" class="fftd"><input type="button" onclick="submit()" value="添加 ">&nbsp;&nbsp;<a href="job.html"><input type="reset" value="取消 "></a></td></tr>
 		  </table>
 		
 	</td>
