@@ -152,8 +152,11 @@
 
             /** 搜索定点击事件 */
 			$("#sousuoButton").click(function () {
-			    if($("#sousuo").val() == "")
-			        alert("部门名称不能为空");
+			    if($("#sousuo").val() == ""){
+                    flag = false;
+                    page = 1;
+			        change(1,count);
+				}
 			    else{
 			        flag = true;
                     page = 1;
