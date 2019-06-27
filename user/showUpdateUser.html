@@ -19,7 +19,39 @@
 	<script src="../js/ligerUI/js/plugins/ligerResizable.js" type="text/javascript"></script>
 	<link href="../css/pager.css" type="text/css" rel="stylesheet" />
 	<script type="text/javascript">
+		var Request = GetRequest();
+		var key = Request["userId"];//得到userId
+	/* 页面加载完执行此方法*/
+		$(function(){
+			/* 请求数据 */
+			$.ajax({
+		             type: "GET",
+		             url: "http://47.100.175.241:9652/csi/getUser",
+		             contentType: "application/json",
+		             dataType:"json",
+		             data:{"userId":key},
+		             success: function(data){	
+		             			  console.log(data.username); 
+		             			  $("#username").val(data.username); 
+		             			  $("#status").val(data.status);
+		             			  $("#loginname").val(data.loginname);                     
+		                      },		           
+         		});
+	});
 	
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串 
+		console.log(url);
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+		var str = url.substr(1);
+		strs = str.split("&");
+		for (var i = 0; i < strs.length; i++) {
+				theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	}
 function submit(){
 		$("#status").val($("#sta").val());
     	/** 员工表单提交 */
@@ -43,13 +75,23 @@ function submit(){
 				$.ligerDialog.error(msg);
 				return false;
 			}else{
-				return true;
-			}
-			//$("#userForm").submit();
-	
-}
-		
-
+				console.log("11111");
+				// $("#userForm").submit();
+				$.ajax({
+		             type: "PUT",
+		             url: "http://47.100.175.241:9652/csi/updateUser",
+		             contentType: "application/json",
+		             dataType:"json",
+		             data: JSON.stringify({"username":username.val(),"loginname":loginname.val(),"password":password.val(),"status":status.value}),
+		             success: function(data){	
+		             			  console.log(data);
+		             			  pageCount = data.length;                      
+	 	                          listData(data); 	                        
+		                      },		           
+         		});
+				//return true;
+			} 
+		}
 	</script>
 </head>
 <body>
@@ -72,7 +114,7 @@ function submit(){
 		    <tr><td class="font3 fftd">
 		    	<table>
 		    		<tr>
-		    			<td class="font3 fftd">姓名：<input type="text" name="username" id="username" size="20" value="wangxh"/></td>
+		    			<td class="font3 fftd">姓名：<input type="text" name="username" id="username" size="20" /></td>
 		    			<td class="font3 fftd">状态：
 		    				<select name="status" id="status" >
 								  <option value ="1">管理员</option>
@@ -86,10 +128,9 @@ function submit(){
 		    			
 		    		<tr>
 		    			<td class="font3 fftd">登录名：
-		    			<input name="loginname" id="loginname" size="20" value="wangxh"/>
+		    			<input name="loginname" id="loginname" size="20"/>
 		    			<input type="hidden" name="password" id="password" size="20" value="songyq"/>
 		    			</td>
-		    			
 		    		</tr>
 		    		
 		    	</table>
