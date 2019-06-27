@@ -46,11 +46,31 @@
 				$.ligerDialog.error(msg);
 				return false;
 			}else{
-				return true;
+
+				$.ajax({
+		             type: "POST",
+		             url: "http://47.100.175.241:9652/csi/addUser",
+		             contentType: "application/json",
+		             dataType:"json",
+		             data: JSON.stringify({"username":username.val(),"loginname":loginname.val(),"password":password.val(),"status":status.value}),
+		             success: function(){
+		                         console.log("data");
+		                         alert("添加成功");
+		                      },
+		             error:function(){
+		             			alert("添加失败");
+		                        console.log("添加失败");
+		             }
+         		});
 			}
-			//$("#userForm").submit();
 		}
  
+		function reset(){
+			 $("select[name='status']").val("");
+			 $("input[name='username']").val("");
+			 $("input[name='loginname']").val("");
+			 $("input[name='password']").val("");
+		}
 		
 
 	</script>
@@ -103,13 +123,8 @@
 			<tr>
 			<td align="left" class="fftd">
 			<input type="button" onclick="submit()" value="添加">&nbsp;&nbsp;
-			<input type="reset" value="取消 ">&nbsp;&nbsp;
-			
-			
+			<input type="reset" value="取消 " onclick="reset()">&nbsp;&nbsp;
 			</td>
-			
-				
-			
 			</tr>
 		  </table>
 		
@@ -117,8 +132,5 @@
   </tr>
 </table>
 <div style="height:10px;"></div>
-
-		
-
 </body>
 </html>
